@@ -1,0 +1,37 @@
+# Dependencies
+/node_modules
+/jspm_packages
+
+# Testing
+/coverage
+/.nyc_output
+
+# Production
+/build
+/dist
+/npm-debug.log
+*.tgz
+pm2.err
+pm2.out
+
+# Environment variables
+.env
+.env.development
+.env.test
+.env.production
+
+
+# Optional npm cache files
+.npm
+
+# Output of `npm pack`
+*.tgz
+
+# Yarn
+yarn-error.log
+.yarn-integrity
+
+# Editor/OS specific files
+.DS_Store
+Thumbs.db
+.vscode/
