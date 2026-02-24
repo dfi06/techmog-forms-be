@@ -12,6 +12,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://${process.env.DOMAIN}:${process.env.PORT}`);
+  console.log(`Server running on ${PORT}`);
 });
 
