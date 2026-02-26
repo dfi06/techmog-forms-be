@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/userSchema')
+const authMiddleware = require('../middleware.js');
+const jwt = require('jsonwebtoken');
+
 
 router.get('/', (req, res) => {
   res.send('Sup World!');
@@ -41,30 +44,43 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(400).json({ message: "Invalid credentials" });
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None"
+    });
+
+    res.json({ message: "Login successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Something went wrong" });
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res.status(400).json({ message: "Invalid credentials" });
-  }
-
-  res.cookie("userId", user._id.toString(), {
-    httpOnly: true,
-    secure: true,        
-    sameSite: "None",    
-  });
-
-  res.json({ message: "Login successful" });
 });
 
-router.get('/me', (req, res) => {
-  console.log(req.cookies);
-  res.json(req.cookies);
+router.get('/me', authMiddleware, async (req, res) => {
+  res.json({
+    message: "You are authenticated",
+    userId: req.user.userId
+  });
 });
 
 module.exports = router;
