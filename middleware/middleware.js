@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/userSchema')
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -9,7 +10,13 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+
+    const user = await User.findById(decoded._id)
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized" }); 
+    }
+    req.user = user
+    
     next();
   } catch {
     return res.status(401).json({ message: "Invalid token" });

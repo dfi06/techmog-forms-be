@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const User = require('../models/userSchema')
-const authMiddleware = require('../middleware.js');
+const authMiddleware = require('../middleware/middleware.js');
 const jwt = require('jsonwebtoken');
 
-
-router.get('/', (req, res) => {
-  res.send('Sup World!');
-});
+const User = require('../models/userSchema')
 
 router.post('/register', async (req, res) => {
   try {
@@ -58,7 +54,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: user._id },
+      { _id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -77,10 +73,25 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/me', authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user._id)
+  console.log(user);
+  
+  if (!user){
+    return res.status(401).json({message: "User not found"})
+  }
   res.json({
-    message: "You are authenticated",
-    userId: req.user.userId
+    user
   });
+});
+
+router.post('/logout', (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+  });
+
+  res.json({ message: "Logged out" });
 });
 
 module.exports = router;
