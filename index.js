@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 const userRoutes = require('./routes/userRoutes')
-app.use('/api/user', userRoutes);
+app.use('/user', userRoutes);
 
 const mongoose  = require('mongoose');
 const PORT = process.env.PORT || 3001;
