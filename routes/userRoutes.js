@@ -62,9 +62,7 @@ router.post('/login', async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
-      domain: ".vercel.app",
-      path: "/"
+      sameSite: "None"
     });
 
     res.json({ message: "Login successful" });
@@ -90,9 +88,7 @@ router.post('/logout', (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    domain: ".vercel.app",
-    path: "/"
+    sameSite: "None"
   });
 
   res.json({ message: "Logged out" });
