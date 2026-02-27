@@ -3,8 +3,6 @@ const express = require('express');
 const app = express();
 app.use(express.json())
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
 const cors = require('cors');
 require('dotenv').config();
@@ -18,7 +16,8 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: allowedOrigins,
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
 }));
 
 app.get('/', (req, res) => {

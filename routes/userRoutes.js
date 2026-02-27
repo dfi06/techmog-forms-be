@@ -59,13 +59,8 @@ router.post('/login', async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None"
-    });
 
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Something went wrong" });
@@ -82,16 +77,6 @@ router.get('/me', authMiddleware, async (req, res) => {
   res.json({
     user
   });
-});
-
-router.post('/logout', (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None"
-  });
-
-  res.json({ message: "Logged out" });
 });
 
 module.exports = router;
