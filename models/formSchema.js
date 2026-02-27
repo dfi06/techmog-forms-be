@@ -7,9 +7,12 @@ const questionSchema = new mongoose.Schema({
     question_text: String
 })
 
-const form = new mongoose.Schema({
+const formSchema = new mongoose.Schema({
     title: String,
     description: String,
     owner_id: mongoose.Schema.Types.ObjectId,
-    owner_username: String
+    owner_username: String,
+    questions: [questionSchema]
 })
+
+module.exports = mongoose.model("Form", formSchema)

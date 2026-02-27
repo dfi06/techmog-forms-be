@@ -8,7 +8,6 @@ const User = require('../models/userSchema')
 
 router.post('/register', async (req, res) => {
   try {
-    console.log("BODY:", req.body);
     const { username, password } = req.body;
     
     const existingUser = await User.findOne({ username });
@@ -30,7 +29,7 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json({
       message: "User created successfully",
-      userId: newUser._id
+      user_id: newUser._id
     });
   } catch (err) {
   console.error(err);
