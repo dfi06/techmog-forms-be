@@ -3,7 +3,7 @@ const User = require('../models/userSchema')
 
 const authMiddleware = async (req, res, next) => {
   let token;
-  const authHeader = req.headers.authorization || '';
+  const authHeader = req.headers.authorization;
   if (authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   }
