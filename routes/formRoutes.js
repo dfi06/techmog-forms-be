@@ -10,7 +10,7 @@ router.get('/all', async (req,res) => {
     res.json({forms})
 })
 router.get('/by/:form_id', async (req,res) => {
-    const form_id = req.params.form_id;
+    const {form_id} = req.params;
     const form = await Form.findById(form_id)
     
     res.json({form})
@@ -42,7 +42,7 @@ router.post('/create', authMiddleware, async (req,res) => {
 
 router.delete('/delete/:form_id', authMiddleware, async (req,res) => {
     try {
-        const form_id = req.params.form_id
+        const { form_id } = req.params
         const form = await Form.findById(form_id)
 
         if (!form) {
@@ -62,6 +62,21 @@ router.delete('/delete/:form_id', authMiddleware, async (req,res) => {
 
     } catch (err) {
         res.status(500).json({ message: "Server error" })
+    }
+})
+
+router.put('/save/:form_id', async (req, res) => {
+    const { form_id } = req.params
+    const newForm = req.body.form
+    try {
+        const form = await Form.findByIdAndUpdate(form_id, newForm, { new: true });
+        if (!form) {
+            return res.status(404).json({ message: "Form not found" });
+        }
+        return res.json({ form });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Server error" });
     }
 })
 

@@ -5,7 +5,7 @@ const questionSchema = new mongoose.Schema({
     options:[String], 
     required: Boolean, 
     question_text: String,
-}, { timestamps: true })
+}, { timestamps: true, strict: true})
 
 const formSchema = new mongoose.Schema({
     title: String,
