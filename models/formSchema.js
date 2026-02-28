@@ -4,8 +4,8 @@ const questionSchema = new mongoose.Schema({
     type: {type: String, enum: ["Multiple Choice", "Short Answer", "Checkbox", "Dropdown"]},
     options:[String], 
     required: Boolean, 
-    question_text: String
-})
+    question_text: String,
+}, { timestamps: true })
 
 const formSchema = new mongoose.Schema({
     title: String,
@@ -13,6 +13,6 @@ const formSchema = new mongoose.Schema({
     owner_id: mongoose.Schema.Types.ObjectId,
     owner_username: String,
     questions: [questionSchema]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("Form", formSchema)
