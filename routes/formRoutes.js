@@ -31,8 +31,8 @@ try {
 })
 
 router.post('/create', authMiddleware, async (req,res) => {
-    const { owner_id } = req.body
-    const newForm = new Form({ title: "def", owner_id})
+    const { owner_id, owner_username } = req.body
+    const newForm = new Form({ title: "def", owner_id, owner_username})
     await newForm.save()
     res.status(201).json({
         message: "Form created successfully",
