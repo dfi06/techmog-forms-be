@@ -4,6 +4,25 @@ const router = express.Router();
 const Attempt = require("../models/attemptSchema");
 const authMiddleware = require("../middleware/middleware");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Attempts
+ *   description: Form attempt submissions
+ */
+
+/**
+ * @swagger
+ * /attempt/all:
+ *   get:
+ *     tags: [Attempts]
+ *     summary: List all attempts (auth required)
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of attempts
+ */
 router.get("/all", authMiddleware, async (req, res) => {
   try {
     const attempts = await Attempt.find({});
@@ -14,6 +33,22 @@ router.get("/all", authMiddleware, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /attempt/by/{form_id}:
+ *   get:
+ *     tags: [Attempts]
+ *     summary: List attempts for a form
+ *     parameters:
+ *       - in: path
+ *         name: form_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Attempts for the form
+ */
 router.get("/by/:form_id", async (req, res) => {
   try {
     const { form_id } = req.params;
@@ -25,6 +60,22 @@ router.get("/by/:form_id", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /attempt/create:
+ *   post:
+ *     tags: [Attempts]
+ *     summary: Create a new attempt
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AttemptCreate'
+ *     responses:
+ *       201:
+ *         description: Attempt saved
+ */
 router.post("/create", async (req, res) => {
   try {
     const newAttempt = new Attempt(req.body);

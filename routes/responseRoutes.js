@@ -6,6 +6,29 @@ const authMiddleware = require("../middleware/middleware.js");
 const Attempt = require("../models/attemptSchema");
 const Form = require("../models/formSchema");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Responses
+ *   description: Aggregated response stats for a form
+ */
+
+/**
+ * @swagger
+ * /response/get/{form_id}:
+ *   get:
+ *     tags: [Responses]
+ *     summary: Get aggregated response statistics for a form
+ *     parameters:
+ *       - in: path
+ *         name: form_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Aggregated response data
+ */
 router.get("/get/:form_id", async (req, res) => {
   try {
     const { form_id } = req.params;

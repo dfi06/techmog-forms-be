@@ -6,6 +6,31 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/userSchema");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User authentication and profile
+ */
+
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     tags: [Users]
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserRegister'
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: Username already taken
+ */
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -35,6 +60,24 @@ router.post("/register", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     tags: [Users]
+ *     summary: Login and get JWT token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserLogin'
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Invalid credentials
+ */
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -60,6 +103,20 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /user/me:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get current authenticated user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current user profile
+ *       401:
+ *         description: Unauthorized or user not found
+ */
 router.get("/me", authMiddleware, async (req, res) => {
   const user = await User.findById(req.user._id);
 
