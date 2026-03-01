@@ -2,17 +2,17 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userSchema");
 
 const authMiddleware = async (req, res, next) => {
-  let token;
-  const authHeader = req.headers.authorization;
-  if (authHeader.startsWith("Bearer ")) {
-    token = authHeader.split(" ")[1];
-  }
-
-  if (!token) {
-    return res.status(401).json({ message: "Not authenticated" });
-  }
-
   try {
+    let token;
+    const authHeader = req.headers.authorization;
+    if (authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded._id);
