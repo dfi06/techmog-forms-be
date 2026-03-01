@@ -32,7 +32,11 @@ router.get("/search", async (req, res) => {
 
 router.post("/create", authMiddleware, async (req, res) => {
   const { owner_id, owner_username } = req.body;
-  const newForm = new Form({ title: "def", owner_id, owner_username });
+  const newForm = new Form({
+    title: `${owner_username}'s Form`,
+    owner_id,
+    owner_username,
+  });
   await newForm.save();
   res.status(201).json({
     message: "Form created successfully",
