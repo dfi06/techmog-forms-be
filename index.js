@@ -27,13 +27,13 @@ const userRoutes = require("./routes/userRoutes");
 const formRoutes = require("./routes/formRoutes");
 const attemptRoutes = require("./routes/attemptRoutes");
 const responseRoutes = require("./routes/responseRoutes");
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./swagger");
 app.use("/user", userRoutes);
 app.use("/form", formRoutes);
 app.use("/attempt", attemptRoutes);
 app.use("/response", responseRoutes);
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const mongoose = require("mongoose");

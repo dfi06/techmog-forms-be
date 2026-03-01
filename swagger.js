@@ -10,9 +10,10 @@ const options = {
     },
     servers: [
       {
-        url: process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : `http://localhost:${process.env.PORT || 3001}`,
+        url:
+          process.env.NODE_ENV === "production"
+            ? "https://yourdomain.com"
+            : `http://localhost:${process.env.PORT || 3001}`,
       },
     ],
     components: {
