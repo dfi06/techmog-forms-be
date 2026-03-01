@@ -26,8 +26,10 @@ app.get('/', (req, res) => {
 
 const userRoutes = require('./routes/userRoutes')
 const formRoutes = require('./routes/formRoutes')
+const attemptRoutes = require('./routes/attemptRoutes')
 app.use('/user', userRoutes);
 app.use('/form', formRoutes);
+app.use('/attempt', attemptRoutes)
 
 const mongoose  = require('mongoose');
 const PORT = process.env.PORT || 3001;
