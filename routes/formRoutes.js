@@ -64,7 +64,7 @@ router.delete("/delete/:form_id", authMiddleware, async (req, res) => {
   }
 });
 
-router.put("/save/:form_id", async (req, res) => {
+router.put("/save/:form_id", authMiddleware, async (req, res) => {
   const { form_id } = req.params;
   const newForm = req.body.form;
   try {
