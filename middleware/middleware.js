@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/userSchema')
+const jwt = require("jsonwebtoken");
+const User = require("../models/userSchema");
 
 const authMiddleware = async (req, res, next) => {
   let token;
   const authHeader = req.headers.authorization;
-  if (authHeader.startsWith('Bearer ')) {
-    token = authHeader.split(' ')[1];
+  if (authHeader.startsWith("Bearer ")) {
+    token = authHeader.split(" ")[1];
   }
 
   if (!token) {
@@ -17,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
 
     const user = await User.findById(decoded._id);
     if (!user) {
-      return res.status(401).json({ message: "Unauthorized" }); 
+      return res.status(401).json({ message: "Unauthorized" });
     }
     req.user = user;
     next();
