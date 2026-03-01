@@ -50,6 +50,7 @@ router.get("/get/:form_id", async (req, res) => {
 
     res.json({
       form_id: form._id,
+      owner_id: form.owner_id,
       title: form.title,
       total_responses,
       total_unique_users,
